@@ -10,6 +10,7 @@ const config = {
 };
 
 
+// Очищаем таблицу Users
 const clearUsers = async () => {
   const connection = await mysql.createConnection(config);
 
@@ -23,6 +24,7 @@ const clearUsers = async () => {
   }
 };
 
+// Очищаем таблицу Doctors
 const clearDoctors = async () => {
   const connection = await mysql.createConnection(config);
 
@@ -36,6 +38,7 @@ const clearDoctors = async () => {
   }
 };
 
+// Очищаем таблицу Schedule
 const clearSchedule = async () => {
   const connection = await mysql.createConnection(config);
 
@@ -49,6 +52,7 @@ const clearSchedule = async () => {
   }
 };
 
+// Очищаем таблицу Appointments
 const clearAppointments = async () => {
   const connection = await mysql.createConnection(config);
 
@@ -69,5 +73,4 @@ const clearAllTables = async () => {
   await clearUsers();
 };
 
-// Вызываем функцию для очистки всех таблиц
 clearAllTables();

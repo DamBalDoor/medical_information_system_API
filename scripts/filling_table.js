@@ -12,11 +12,12 @@ const config = {
 
   const generateUUID = () => uuidv4();
 
-  const docktors = [generateUUID(), generateUUID()];
-  const users = [generateUUID(), generateUUID()];
-  const appointments = [generateUUID(), generateUUID()];
-  const schedules = [generateUUID(), generateUUID()];
+  const docktors = [generateUUID(), generateUUID(), generateUUID(), generateUUID()];
+  const users = [generateUUID(), generateUUID(), generateUUID(), generateUUID()];
+  const appointments = [generateUUID(), generateUUID(), generateUUID(), generateUUID(), generateUUID(), generateUUID(), generateUUID()];
+  const schedules = [generateUUID(), generateUUID(), generateUUID(), generateUUID(), generateUUID(), generateUUID()];
 
+  // Заполняем таблицу Users
   const addUser = async () => {
     const connection = await mysql.createConnection(config);
   
@@ -24,8 +25,10 @@ const config = {
       await connection.execute(`
         INSERT INTO Users (id, phone, name, email)
         VALUES (?, '+7 913 743 24 35', 'Иван', 'ivan@example.com'),
-               (?, '+7 912 111 22 33', 'Анна', 'anna@example.com');
-      `, [users[0], users[1]]);
+               (?, '+7 912 345 21 33', 'Анна', 'anna@example.com'),
+               (?, '+7 911 435 75 56', 'Мария', 'masha@example.com'),
+               (?, '+7 910 836 45 23', 'Даниил', 'danil@example.com');
+      `, [users[0], users[1], users[2], users[3]]);
   
       console.log('Users added successfully.');
     } catch (error) {
@@ -35,6 +38,7 @@ const config = {
     }
   };
   
+  // Заполняем таблицу Doctors
   const addDoctor = async () => {
     const connection = await mysql.createConnection(config);
   
@@ -42,8 +46,10 @@ const config = {
       await connection.execute(`
         INSERT INTO Doctors (id, name, spec)
         VALUES (?, 'Сергей', 'Терапевт'),
-               (?, 'Мария', 'Педиатр');
-      `, [docktors[0], docktors[1]]);
+               (?, 'Мария', 'Педиатр'),
+               (?, 'Иван', 'Офтальмолог'),
+               (?, 'Наталья', 'Травматолог');
+      `, [docktors[0], docktors[1], docktors[2], docktors[3]]);
   
       console.log('Doctors added successfully.');
     } catch (error) {
@@ -52,26 +58,8 @@ const config = {
       await connection.end();
     }
   };
-  
-  const addSchedule = async () => {
-    const connection = await mysql.createConnection(config);
-  
-    try {
-      await connection.execute(`
-        INSERT INTO Schedule (id, doctor_id, date, slots)
-        VALUES (?, ?, '2023-09-17', '[{"appointment_id": "${appointments[0]}", "date_time": "2023-09-17 10:00:00"}]'),
-               (?, ?, '2023-09-18', '[{"appointment_id": "${appointments[1]}", "date_time": "2023-09-18 11:30:00"}]');
-      `, [schedules[0], docktors[0], schedules[1], docktors[1]]);
 
-  
-      console.log('Schedule added successfully.');
-    } catch (error) {
-      console.error('Error adding schedule:', error);
-    } finally {
-      await connection.end();
-    }
-  };
-  
+  // Заполняем таблицу Appointments
   const addAppointment = async () => {
     const connection = await mysql.createConnection(config);
   
@@ -79,8 +67,23 @@ const config = {
       await connection.execute(`
         INSERT INTO Appointments (id, doctor_id, user_id, date_time)
         VALUES (?, ?, ?, '2023-09-17 10:00:00'),
-               (?, ?, ?, '2023-09-18 11:30:00');
-      `, [appointments[0], docktors[0], users[0], appointments[1], docktors[1], users[1]]);
+               (?, ?, ?, '2023-09-17 11:30:00'),
+
+               (?, ?, ?, '2023-09-18 08:30:00'),
+               (?, ?, ?, '2023-09-18 08:30:00'),
+               (?, ?, ?, '2023-09-18 10:00:00'),
+               
+               (?, ?, ?, '2023-09-19 11:00:00'),
+               (?, ?, ?, '2023-09-19 11:30:00');
+      `, [appointments[0], docktors[0], users[0], 
+          appointments[1], docktors[1], users[1],
+
+          appointments[2], docktors[2], users[2],
+          appointments[3], docktors[3], users[3],
+          appointments[4], docktors[2], users[3],
+
+          appointments[5], docktors[1], users[3],
+          appointments[6], docktors[0], users[2],]);
   
       console.log('Appointments added successfully.');
     } catch (error) {
@@ -90,12 +93,13 @@ const config = {
     }
   };
   
+  // Таблица Schedule заполнится автоматически при заполнение таблицы Appointments, 
+  // благодоря ранее созданному триггеру
+
   const populateTables = async () => {
     await addUser();
     await addDoctor();
-    await addSchedule();
     await addAppointment();
   };
   
-  // Вызываем функцию для заполнения таблиц данными
   populateTables();

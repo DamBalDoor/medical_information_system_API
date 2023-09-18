@@ -59,10 +59,9 @@ const createTables = async () => {
   } catch (error) {
     console.error('Error creating tables:', error);
   } finally {
-    // Важно закрыть соединение после выполнения запросов
     await connection.end();
   }
 };
 
-// Вызовем функцию создания таблиц
 createTables();
+
