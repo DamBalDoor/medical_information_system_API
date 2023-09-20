@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "reset_data_base": "node ./scripts/drop_table.js && node ./scripts/create_table.js && sh ./scripts/create_trigger.sh && node ./scripts/filling_table.js",
-    "dev": "nodemon ./src/server.js"
+    "dev": "node ./scripts/drop_table.js && node ./scripts/create_table.js && sh ./scripts/create_trigger.sh && node ./scripts/filling_table.js && nodemon ./src/server.js"
   },
   "author": "",
   "license": "ISC",
