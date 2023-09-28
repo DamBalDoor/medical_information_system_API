@@ -10,7 +10,7 @@ const emailInterface = require('./email');
 app.use(express.json()); 
 app.use('/api', router);
 
-emailInterface();
+// emailInterface();
 
 app.listen(PORT, async () => {
     try {

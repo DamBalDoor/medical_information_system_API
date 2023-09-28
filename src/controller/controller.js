@@ -76,11 +76,30 @@ class Controller {
         }
     }
 
+    async addUser(req, res) {
+        const data = req.body;
+        if(!(data && data.username && data.gender && data.phone)) {
+            res.status(400).json({ error: 'Не корректные данные' });
+            return;
+        }
+
+        try {
+            const user_uuid = uuidv4();
+
+            const query = await pool.query(`INSERT INTO Users (id, phone, name) VALUES ('${user_uuid}', '${data.phone}', '${data.username}')`);
+        
+            res.json({message: 'Пользоваель успешно добавлен', user_id: user_uuid});
+          } catch (error) {
+            res.status(500).json({ error: 'Ошибка при добавление пользователя в базу данных' });
+          }
+    }
+
     _isEvenTimeSlot(time) {
         const timeMoment = moment(time, 'YYYY-MM-DDTHH:mm:ss');
         const minutes = timeMoment.minutes();
         return minutes === 0 || minutes === 30;
       };
+
 
 }
 
