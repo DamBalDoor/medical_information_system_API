@@ -22,7 +22,9 @@ class Controller {
                                             LEFT JOIN Schedule AS sch ON doc.id = sch.doctor_id AND sch.date = '${selected_data}';`
                                             );
         
-            res.json({ schedules: rows });
+            const slotArray = this._createSlotArray(rows);
+                        
+            res.json(slotArray);
         } catch (error) {
             res.json({error: error});
             process.exit(1);
@@ -129,7 +131,68 @@ class Controller {
         return minutes === 0 || minutes === 30;
       };
 
+    _splitTimeIntoPeriods(timeArray) {
+        const periods = [];
+        let currentPeriod = [];
+      
+        for (let i = 0; i < timeArray.length; i++) {
+          if (i === 0 || moment(timeArray[i], 'HH:mm').diff(moment(timeArray[i - 1], 'HH:mm'), 'minutes') > 30) {
+            if (currentPeriod.length > 0) {
+              periods.push([...currentPeriod]);
+            }
+            currentPeriod = [timeArray[i]];
+          } else {
+            currentPeriod.push(timeArray[i]);
+          }
+        }
+      
+        if (currentPeriod.length > 0) {
+          periods.push([...currentPeriod]);
+        }
+      
+        return periods;
+    }
 
+    _createSlotArray(schedules) {
+        const startTime = moment('08:00', 'HH:mm');
+        const endTime = moment('18:00', 'HH:mm');
+        const intervalMinutes = 30;
+
+        const timeArray = [];
+        let currentTime = moment(startTime, 'HH:mm');
+        
+        while (currentTime.isBefore(endTime, 'HH:mm')) {
+            timeArray.push(currentTime.format('HH:mm'));
+            currentTime.add(intervalMinutes, 'minutes');
+        }
+
+        const result = [];
+        
+        for (let i = 0; i < schedules.length; i++) {
+            const tmpAllOpenSlot = timeArray.concat();
+            for (let j = 0; j < schedules[i].slots.length; j++) {
+                const timeTmp = moment(schedules[i].slots[j].date_time);
+
+                const indexRemove = tmpAllOpenSlot.indexOf(timeTmp.format('HH:mm'));
+                if (indexRemove !== -1) {
+                    tmpAllOpenSlot.splice(indexRemove, 1);
+                }
+            }
+
+            const openSlot = [];
+            openSlot.push(this._splitTimeIntoPeriods(tmpAllOpenSlot));
+
+            let tmp = {
+                name: schedules[i].name,
+                spec: schedules[i].spec,
+                openSlot: openSlot
+            }
+
+            result.push(tmp)
+        }        
+
+        return result;
+    }
 }
 
 module.exports = new Controller()
