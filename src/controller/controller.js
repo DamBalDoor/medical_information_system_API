@@ -94,6 +94,35 @@ class Controller {
           }
     }
 
+    async checkRegisterUser(req, res) {
+        const data = req.body;
+
+        if(!(data && data.phone)) {
+            res.status(400).json({ error: 'Не корректные данные' });
+            return;
+        }
+
+        const regex = /^7\d{10}$/;
+        if (!regex.test(data.phone)) {
+            res.status(400).json({ error: 'Номер телефона соответствует формату' });
+            return;
+        }
+
+        try {
+            const result = await pool.query(`SELECT * FROM Users WHERE phone = '${data.phone}'`);
+            
+            const rowCount = result[0].length;
+
+            if(rowCount > 0) {
+                res.json({message: 'Пользоваель зарегистрирован', user: result[0]});
+            } else {
+                res.json({message: 'Пользоваель не найден'});
+            }
+        } catch (error) {
+            res.status(500).json({ error: 'Ошибка при обращение к базе данных' });
+        }
+    }
+
     _isEvenTimeSlot(time) {
         const timeMoment = moment(time, 'YYYY-MM-DDTHH:mm:ss');
         const minutes = timeMoment.minutes();

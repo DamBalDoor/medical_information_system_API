@@ -24,10 +24,10 @@ const config = {
     try {
       await connection.execute(`
         INSERT INTO Users (id, phone, name, email)
-        VALUES (?, '+7 913 743 24 35', 'Иван', 'ivan@example.com'),
-               (?, '+7 912 345 21 33', 'Анна', 'anna@example.com'),
-               (?, '+7 911 435 75 56', 'Мария', 'masha@example.com'),
-               (?, '+7 910 836 45 23', 'Даниил', 'danil@example.com');
+        VALUES (?, '79137432435', 'Иван', 'ivan@example.com'),
+               (?, '79123452133', 'Анна', 'anna@example.com'),
+               (?, '79114357556', 'Мария', 'masha@example.com'),
+               (?, '79108364523', 'Даниил', 'danil@example.com');
       `, [users[0], users[1], users[2], users[3]]);
   
       console.log('Users added successfully.');

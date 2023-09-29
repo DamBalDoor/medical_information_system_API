@@ -5,6 +5,7 @@ const controller = require('../controller/controller');
 router.post('/schedules', async (req, res) => controller.getSchedules(req, res));
 router.post('/add_appointment', async (req, res) => controller.addAppointment(req, res));
 router.post('/add_user', async (req, res) => controller.addUser(req, res));
+router.post('/check_user', async (req, res) => controller.checkRegisterUser(req, res));
 
 
 module.exports = router;
