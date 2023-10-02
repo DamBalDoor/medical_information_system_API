@@ -123,7 +123,7 @@ class Controller {
                 userName: user[0].name
             }
 
-            await this._createTaskToAlert(data.userPhone, JSON.stringify(option), 1);
+            await this._createTaskToAlert(data.userPhone, JSON.stringify(option), 0);
 
 
             console.log('Запрос выполнен');
@@ -306,6 +306,7 @@ class Controller {
     // создаем запись в задачах для оповещения
     async _createTaskToAlert(number, data, numCall) {
         try {
+            
             const query = await pool.query(`INSERT INTO tasks (phone_number, info_json, call_attempts) VALUES ('${number}', '${data}', '${numCall}')`);
             
             console.log("Таблица 'tasks' успешно обновлена")
