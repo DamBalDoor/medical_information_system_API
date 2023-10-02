@@ -24,10 +24,10 @@ const config = {
     try {
       await connection.execute(`
         INSERT INTO Users (id, phone, name, email)
-        VALUES (?, '79137432435', 'Иван', 'ivan@example.com'),
-               (?, '79123452133', 'Анна', 'anna@example.com'),
-               (?, '79114357556', 'Мария', 'masha@example.com'),
-               (?, '79108364523', 'Даниил', 'danil@example.com');
+        VALUES (?, '+79137432435', 'Иван', 'ivan@example.com'),
+               (?, '+79123452133', 'Анна', 'anna@example.com'),
+               (?, '+79114357556', 'Мария', 'masha@example.com'),
+               (?, '+79108364523', 'Даниил', 'danil@example.com');
       `, [users[0], users[1], users[2], users[3]]);
   
       console.log('Users added successfully.');
@@ -66,15 +66,15 @@ const config = {
     try {
       await connection.execute(`
         INSERT INTO Appointments (id, doctor_id, user_id, date_time)
-        VALUES (?, ?, ?, '2023-09-17 10:00:00'),
-               (?, ?, ?, '2023-09-17 11:30:00'),
+        VALUES (?, ?, ?, '2023-10-02 10:00:00'),
+               (?, ?, ?, '2023-10-02 11:30:00'),
 
-               (?, ?, ?, '2023-09-18 08:30:00'),
-               (?, ?, ?, '2023-09-18 08:30:00'),
-               (?, ?, ?, '2023-09-18 10:00:00'),
+               (?, ?, ?, '2023-10-02 08:30:00'),
+               (?, ?, ?, '2023-10-02 08:30:00'),
+               (?, ?, ?, '2023-10-02 10:00:00'),
                
-               (?, ?, ?, '2023-09-19 11:00:00'),
-               (?, ?, ?, '2023-09-19 11:30:00');
+               (?, ?, ?, '2023-10-02 11:00:00'),
+               (?, ?, ?, '2023-10-02 11:30:00');
       `, [appointments[0], docktors[0], users[0], 
           appointments[1], docktors[1], users[1],
 

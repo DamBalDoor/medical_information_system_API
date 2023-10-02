@@ -55,6 +55,19 @@ const createTables = async () => {
       );
     `);
 
+    // ------------------------------
+      
+    await connection.execute(`
+      CREATE TABLE tasks (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        phone_number VARCHAR(15) NOT NULL, -- предполагается максимальная длина номера телефона 15 символов
+        info_json JSON NOT NULL,
+        call_attempts INT DEFAULT 0,
+        status ENUM('новая', 'готова к звонку', 'в процессе', 'завершена') DEFAULT 'новая'
+      );
+    `);
+
+
     console.log('Tables created successfully.');
   } catch (error) {
     console.error('Error creating tables:', error);

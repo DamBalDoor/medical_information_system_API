@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 const pool = require('./db.pool');
 const router = require('./routes/routes');
-const emailInterface = require('./email');
+// const emailInterface = require('./email');
 
 app.use(express.json()); 
 app.use('/api', router);

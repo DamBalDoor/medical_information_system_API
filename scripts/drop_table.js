@@ -17,6 +17,7 @@ const dropTables = async () => {
     await connection.execute('DROP TABLE IF EXISTS Schedule;');
     await connection.execute('DROP TABLE IF EXISTS Doctors;');
     await connection.execute('DROP TABLE IF EXISTS Users;');
+    await connection.execute('DROP TABLE IF EXISTS tasks;');
 
     console.log('All tables dropped successfully.');
   } catch (error) {
