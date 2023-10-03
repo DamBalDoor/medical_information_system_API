@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 const mysql = require('mysql2/promise');
 const { v4: uuidv4 } = require('uuid');
 
@@ -24,7 +26,7 @@ const config = {
     try {
       await connection.execute(`
         INSERT INTO Users (id, phone, name, email)
-        VALUES (?, '+79137432435', 'Иван', 'ivan@example.com'),
+        VALUES (?, '+79235211805', 'Константин', 'bad261203@gmail.com'),
                (?, '+79123452133', 'Анна', 'anna@example.com'),
                (?, '+79114357556', 'Мария', 'masha@example.com'),
                (?, '+79108364523', 'Даниил', 'danil@example.com');
@@ -64,17 +66,18 @@ const config = {
     const connection = await mysql.createConnection(config);
   
     try {
+      const date = moment().format('YYYY-MM-DD');
       await connection.execute(`
         INSERT INTO Appointments (id, doctor_id, user_id, date_time)
-        VALUES (?, ?, ?, '2023-10-02 10:00:00'),
-               (?, ?, ?, '2023-10-02 11:30:00'),
+        VALUES (?, ?, ?, '${date} 10:00:00'),
+               (?, ?, ?, '${date} 11:30:00'),
 
-               (?, ?, ?, '2023-10-02 08:30:00'),
-               (?, ?, ?, '2023-10-02 08:30:00'),
-               (?, ?, ?, '2023-10-02 10:00:00'),
+               (?, ?, ?, '${date} 08:30:00'),
+               (?, ?, ?, '${date} 08:30:00'),
+               (?, ?, ?, '${date} 10:00:00'),
                
-               (?, ?, ?, '2023-10-02 11:00:00'),
-               (?, ?, ?, '2023-10-02 11:30:00');
+               (?, ?, ?, '${date} 11:00:00'),
+               (?, ?, ?, '${date} 11:30:00');
       `, [appointments[0], docktors[0], users[0], 
           appointments[1], docktors[1], users[1],
 
