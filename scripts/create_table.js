@@ -60,10 +60,20 @@ const createTables = async () => {
     await connection.execute(`
       CREATE TABLE tasks (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        phone_number VARCHAR(15) NOT NULL, -- предполагается максимальная длина номера телефона 15 символов
+        phone_number VARCHAR(15) NOT NULL,
         info_json JSON NOT NULL,
         call_attempts INT DEFAULT 0,
-        status ENUM('новая', 'готова к звонку', 'в процессе', 'завершена') DEFAULT 'новая'
+        status ENUM('новая', 'готова к звонку', 'в процессе', 'завершена') DEFAULT 'новая',
+        call_task_id INT
+      );
+    `);
+
+    await connection.execute(`
+      CREATE TABLE calls (
+        call_task_id INT NOT NULL,
+        phone_number VARCHAR(15) NOT NULL,
+        status ENUM('в процессе','закончен') DEFAULT 'в процессе',
+        info_json JSON
       );
     `);
 

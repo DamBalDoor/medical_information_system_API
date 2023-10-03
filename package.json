@@ -3,16 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./scripts/drop_table.js && node ./scripts/create_table.js && sh ./scripts/create_trigger.sh && node ./scripts/filling_table.js && nodemon ./src/server.js"
+    "dev": "node ./scripts/drop_table.js && node ./scripts/create_table.js && sh ./scripts/create_trigger.sh && node ./scripts/filling_table.js && nodemon ./src/server.js",
+    "task_trecker": "nodemon ./src/task_trecker.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.5.1",
     "express": "^4.18.2",
     "moment": "^2.29.4",
     "mysql2": "^3.6.1",
-    "nodemailer": "^6.9.5",
+    "node-cron": "^3.0.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

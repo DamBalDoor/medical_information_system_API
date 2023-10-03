@@ -1,9 +1,9 @@
 #!/bin/bash
 
-password='root'
+password='user'
 
 # При изменение базы данных в файле "dbConfig.js", необходимо так же изменить название бд ниже
-mysql -u root -p$password medical_information_system <<EOF
+mysql -u user -p$password medical_information_system <<EOF
 DELIMITER //
 CREATE TRIGGER after_appointment_insert
 AFTER INSERT ON Appointments
